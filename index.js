@@ -4,10 +4,16 @@ const PORT = Number(process.env.PORT);
 const router = require("./routes/routes");
 const morgan = require("morgan");
 const apiVersion = "/api/v1";
+const mongoose = require("mongoose");
 
 const app = express();
 
 app.use(express.json());
+
+mongoose.connect(process.env.CONNECTION).then(() => {
+  console.log("Data base is connected successfully!!");
+});
+
 app.use("/", express.static("public"));
 app.use(morgan("dev"));
 
