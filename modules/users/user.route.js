@@ -1,16 +1,20 @@
 const route = require("express").Router();
+const userController = require("./user.controller");
 
-route.get("/", (req, res, next) => {
+route.get("/", async (req, res, next) => {
   try {
-    res.json({ message: "You are inside get method of users" });
+    const result = await userController.getAllUsers();
+    res.json({ users: result });
   } catch (error) {
     next(error);
   }
 });
 
-route.post("/", (req, res, next) => {
+route.post("/", async (req, res, next) => {
   try {
-    res.json({ message: "You are inside post method of users" });
+    const userData = req.body;
+    const result = await userController.createUser(userData);
+    res.json({ data: result });
   } catch (error) {
     next(error);
   }

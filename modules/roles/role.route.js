@@ -1,26 +1,32 @@
 const route = require("express").Router();
+const roleController = require("./role.controller");
 
-route.get("/", (req, res, next) => {
+route.get("/", async (req, res, next) => {
   try {
-    res.json({ message: `You are inside get method of roles` });
+    const result = await roleController.getAllRole();
+    res.json({ message: result });
   } catch (error) {
     next(error);
   }
 });
 
-route.post("/", (req, res, next) => {
+route.post("/", async (req, res, next) => {
   try {
-    res.json({ message: `You are inside post method of roles` });
+    const data = req.body;
+    const result = await roleController.createRole(data);
+    res.json({ message: result });
   } catch (error) {
     next(error);
   }
 });
 
-route.put("/:id", (req, res, next) => {
+route.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
+    const updatedData = req.body;
+    const result = await roleController.updateRole(id, updatedData);
     res.json({
-      message: `You are inside put method of roles. So, please update the role of id ${id}`,
+      message: result,
     });
   } catch (error) {
     next(error);
@@ -38,11 +44,12 @@ route.patch("/:id", (req, res, next) => {
   }
 });
 
-route.delete("/:id", (req, res, next) => {
+route.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
+    const result = await roleController.deleteRole(id);
     res.json({
-      message: `You are inside delete method of roles. So, please delete role of id ${id}`,
+      message: result,
     });
   } catch (error) {
     next(error);

@@ -1,16 +1,20 @@
 const router = require("express").Router();
+const productModel = require("./product.controller");
 
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    res.json({ message: "You are inside get method " });
+    const result = await productModel.getAllProduct();
+    res.json({ product: result });
   } catch (error) {
     next(error);
   }
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    res.json({ message: "You are inside post method " });
+    const data = req.body;
+    const result = await productModel.createProduct(data);
+    res.json({ message: result });
   } catch (error) {
     next(error);
   }
