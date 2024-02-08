@@ -12,7 +12,9 @@ const getProductById = (_id) => {};
 
 const updateProduct = (_id, payload) => {};
 
-const deleteProduct = (_id) => {};
+const deleteProduct = (_id) => {
+  return productSchema.deleteOne({ _id });
+};
 
 module.exports = {
   createProduct,

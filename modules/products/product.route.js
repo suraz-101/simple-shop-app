@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const productModel = require("./product.controller");
+const { validateProductData } = require("./product.validate");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", validateProductData, async (req, res, next) => {
   try {
     const data = req.body;
     const result = await productModel.createProduct(data);
@@ -42,12 +43,11 @@ router.patch("/:id", (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    res.json({
-      message: `You are inside delete method  and the data of ${id} id need to be deleted`,
-    });
+    const result = await productModel.deleteProduct(id);
+    res.json({ message: result });
   } catch (error) {
     next(error);
   }
