@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const roleController = require("./role.controller");
+const { roleValidation } = require("./role.validate");
 
 route.get("/", async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ route.get("/", async (req, res, next) => {
   }
 });
 
-route.post("/", async (req, res, next) => {
+route.post("/", roleValidation, async (req, res, next) => {
   try {
     const data = req.body;
     const result = await roleController.createRole(data);

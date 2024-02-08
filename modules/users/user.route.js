@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const userController = require("./user.controller");
-
+const { userValidation } = require("./user.validate");
 route.get("/", async (req, res, next) => {
   try {
     const result = await userController.getAllUsers();
@@ -10,10 +10,10 @@ route.get("/", async (req, res, next) => {
   }
 });
 
-route.post("/", async (req, res, next) => {
+route.post("/", userValidation, async (req, res, next) => {
   try {
-    const userData = req.body;
-    const result = await userController.createUser(userData);
+    // const userData = req.body;
+    const result = await userController.createUser(req.body);
     res.json({ data: result });
   } catch (error) {
     next(error);
