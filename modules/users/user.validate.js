@@ -4,6 +4,8 @@ const Schema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   phoneNumber: Joi.number().required(),
+  password: Joi.string().required(),
+  roles: Joi.array().items(Joi.string().valid("user", "admin")),
 });
 
 const userValidation = (req, res, next) => {
